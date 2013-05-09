@@ -5,6 +5,9 @@
  */
 package com.opengamma.lambdava.tuple;
 
+
+import java.util.Objects;
+
 /**
  * An immutable pair consisting of an {@code int} and {@code Object}.
  * <p>
@@ -75,7 +78,7 @@ public class IntObjectPair<T> extends Pair<Integer, T> {
     }
     if (obj instanceof IntObjectPair) {
       final IntObjectPair<T> other = (IntObjectPair<T>) obj;
-      return this.first == other.first && this.second == null ? other.second == null : this.second.equals(other.second);
+      return this.first == other.first && Objects.equals(this.second, other.second);
     }
     return super.equals(obj);
   }

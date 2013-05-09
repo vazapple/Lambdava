@@ -191,20 +191,18 @@
   </build>
 
   <dependencies>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-jdbc</artifactId>
-      <version>${spring.version}</version>
-      <!-- force library users to decide on their version of Spring -->
-      <!-- we only use one interface (org.springframework.jdbc.core.namedparam.SqlParameterSource) -->
-      <!-- and the Resource abstraction in this library -->
-      <scope>provided</scope>
-    </dependency>
 
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <version>6.3.1</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.yaml</groupId>
+          <artifactId>snakeyaml</artifactId>
+        </exclusion>
+      </exclusions>
+      <optional>true</optional>
       <scope>test</scope>
     </dependency>
   </dependencies>

@@ -104,7 +104,6 @@ public class LazyStreamTest {
     Iterator i = s.iterator();
 
     assertEqualRecursive(i.next(), 1);
-    //i.hasNext();
   }
 
   public void lazy_take() {
