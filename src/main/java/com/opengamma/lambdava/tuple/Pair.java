@@ -180,9 +180,9 @@ public abstract class Pair<A, B> implements Serializable {
     if (obj instanceof Pair<?, ?>) {
       Pair<?, ?> other = (Pair<?, ?>) obj;
       return
-        ((_1() == null && other._1() == null) || (_1() == other._1()) || (_1().equals(other._1())))
+        ((_1() == null && other._1() == null) || (_1() == other._1()) || (_1() != null && _1().equals(other._1())))
           &&
-          ((_2() == null && other._2() == null) || (_2() == other._2()) || (_2().equals(other._2())));
+          ((_2() == null && other._2() == null) || (_2() == other._2()) || (_2() != null && _2().equals(other._2())));
     }
     return false;
   }
