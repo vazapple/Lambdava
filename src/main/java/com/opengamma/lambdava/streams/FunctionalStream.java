@@ -6,9 +6,13 @@
 package com.opengamma.lambdava.streams;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.opengamma.lambdava.functions.Function1;
@@ -34,14 +38,34 @@ class FunctionalStream<S> extends Lambdava<S> implements StreamI<S> {
       return new FunctionalStream<T>(i);
   }
 
+  /**
+   * Returns sorted list of elements from unsorted collection.
+   *
+   * @param coll  unsorted collection
+   * @param <T> type if elements in unsorted collection (must implement Comparable interface)
+   * @return list sorted using internal entries' {@link Comparable#compareTo(Object)} compareTo} method.
+   */
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  private static <T extends Comparable> List<T> sort(final Collection<T> coll) {
+    List<T> list = new ArrayList(coll);
+    try {
+      Collections.sort(list);
+      return list;
+    } catch (ClassCastException e) {
+      return list;
+    }
+  }
+
   @Override
   public FunctionalStream<S> sort() {
-    return null; //TODO implement me!!!
+    return new FunctionalStream(sort((List<Comparable<S>>)this.asList()));
   }
 
   @Override
   public FunctionalStream<S> sortBy(Comparator<? super S> comparator) {
-    return null; //TODO implement me!!!
+    List<S> list = new ArrayList<>(this.asList());
+    Collections.sort(list, comparator);
+    return new FunctionalStream(list);
   }
 
   @Override
@@ -87,8 +111,8 @@ class FunctionalStream<S> extends Lambdava<S> implements StreamI<S> {
     Map<T, Functional<S>> grouping = new HashMap<T, Functional<S>>();
     for (T t : m.keySet()) {
       grouping.put(
-        t,
-        new FunctionalStream<S>(m.get(t))
+          t,
+          new FunctionalStream<S>(m.get(t))
       );
     }
     return grouping;
@@ -144,8 +168,8 @@ class FunctionalStream<S> extends Lambdava<S> implements StreamI<S> {
           else {
             Y newHead = mapper.execute(underlying.head());
             return Stream.of(
-              newHead,
-              new LazyMappingStream<X, Y>(underlying.rest(), mapper)
+                newHead,
+                new LazyMappingStream<X, Y>(underlying.rest(), mapper)
             );
           }
         }
@@ -225,9 +249,9 @@ class FunctionalStream<S> extends Lambdava<S> implements StreamI<S> {
         return "[]";
       else
         return "StreamConcatenator{" +
-          "_head=" + _head +
-          ", _streams=" + _streams +
-          '}';
+            "_head=" + _head +
+            ", _streams=" + _streams +
+            '}';
     }
 
     @Override
